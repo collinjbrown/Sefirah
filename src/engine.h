@@ -28,6 +28,7 @@ namespace Sefirah
 		float			evolveChance = 1.0f;
 		int				maxRecurseDepth = 10;
 
+		float			accruedTime = 0.0f;
 		float			lastTime = 0.0f;
 
 	public:

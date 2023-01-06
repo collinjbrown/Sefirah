@@ -12,9 +12,13 @@ namespace Sefirah
 		const static unsigned int width = 256;
 		const static unsigned int height = 256;
 
-		float evolutionRate = 0.01f;
+		float evolutionRate = 0.1f;
+
+		int		eatBenefit = 300;
+		int		reproductionThreshold = 300;
 
 		// Organisms
+		int						maxOrganismCount;
 		Organism*				organismSpace[width * height];
 		std::vector<Organism*>	organisms;
 
@@ -26,6 +30,12 @@ namespace Sefirah
 		// World Size 2: Electric Boogaloo
 		int			Width() { return width; }
 		int			Height() { return height; }
+
+		int			MaxOrganismCount() { return maxOrganismCount; }
+		int			EatBenefit() { return eatBenefit; }
+		int			ReproductionThreshold() { return reproductionThreshold; }
+
+		void		MaxOrganismCount(int maxOrganismCount) { this->maxOrganismCount = maxOrganismCount; }
 
 		// We need to be able to provide data about the world
 		// for the sensory organs.
@@ -45,7 +55,7 @@ namespace Sefirah
 		void					MoveOrganism(Organism* o, int dx, int dy);
 		void					RandomlyPlaceOrganism(Organism* o);
 
-		void		Terminate();
+		void					Terminate();
 	};
 }
 

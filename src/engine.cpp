@@ -9,6 +9,8 @@ namespace Sefirah
 	{
 		srand(time(NULL));
 
+		world->MaxOrganismCount(startingPopulation);
+
 		for (int i = 0; i < startingPopulation; i++)
 		{
 			Organism* organism = new Organism(geneCount);
@@ -27,17 +29,26 @@ namespace Sefirah
 			Organism* o = os[i];
 
 			// First, we need to check if the creature is starving.
+			o->Starve(1);
 			int satiation = o->GetSatiation();
 
 			if (satiation == 0)
 			{
 				world->KillOrganism(o);
+
+				Organism* organism = new Organism(geneCount);
+				world->AddOrganism(organism);
+				world->RandomlyPlaceOrganism(organism);
+
 				continue;
 			}
-			else if (satiation > 100)
+			else if (satiation > world->ReproductionThreshold())
 			{
-				world->ReproduceOrganism(o);
-				o->Starve(100);
+				if (world->GetOrganisms().size() < world->MaxOrganismCount())
+				{
+					world->ReproduceOrganism(o);
+					o->Starve(world->ReproductionThreshold());
+				}
 			}
 
 			// If not, then we need to run the creature's little brain.
@@ -61,6 +72,14 @@ namespace Sefirah
 		{
 			float deltaTime = glfwGetTime() - lastTime;
 			lastTime = glfwGetTime();
+
+			accruedTime += deltaTime;
+
+			if (accruedTime > 5.0f)
+			{
+				std::cout << "Organisms: " + std::to_string(world->GetOrganisms().size()) << std::endl;
+				accruedTime = 0;
+			}
 
 			if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) cameraPosition.x += 500 * deltaTime;
 			else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) cameraPosition.x -= 500 * deltaTime;

@@ -175,7 +175,12 @@ namespace Sefirah
 		if (target != nullptr)
 		{
 			KillOrganism(target);
-			o->Consume(100);
+			// o->Consume(eatBenefit);
+
+			if (organisms.size() < maxOrganismCount)
+			{
+				ReproduceOrganism(o);
+			}
 		}
 
 		organismSpace[(py * width) + px] = nullptr;

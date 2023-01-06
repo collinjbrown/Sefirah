@@ -6,6 +6,7 @@ namespace Sefirah
 {
 	void Organism::Move(glm::vec2 dxy)
 	{
+		Starve(1);
 		position += dxy;
 		forward = dxy;
 	}
@@ -202,7 +203,7 @@ namespace Sefirah
 									static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
 									1.0f);
 
-		this->satiation = 50;
+		this->satiation = 200;
 
 		// Generate new neurons and dendrons.
 		
@@ -255,7 +256,7 @@ namespace Sefirah
 		this->forward = glm::vec2(0, 1);
 		this->color = parent->color;
 
-		this->satiation = 50;
+		this->satiation = 200;
 
 		this->genome = parent->genome;
 		this->neurons = parent->neurons;
