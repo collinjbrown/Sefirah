@@ -161,8 +161,11 @@ namespace Sefirah
 
 		// We also need to check to be sure the place
 		// the organism wants to move isn't off the grid.
-		if (px + dx < 0 || px + dx >= width ||
-			py + dy < 0 || py + dy >= height) return;
+		if (px + dx < 0) dx = width - px;
+		if (py + dy < 0) dy = height - py;
+
+		if (px + dx >= width) dx = -px;
+		if (py + dy >= height) dy = -py;
 
 		// Every time something moves, it creates a "ripple"
 		// that is really just a bool that tells organisms with
